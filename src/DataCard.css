@@ -1,0 +1,25 @@
+.dataCard {
+  text-align: center;
+  background: #f5f5f5;
+  color: #fff;
+  margin: 20px;
+  padding: 20px;
+}
+.cardValue {
+  font-size: 44px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.greenBg {
+  background-color: #7ccc63;
+}
+.orangeBg {
+  background-color: #f39c12;
+}
+.redBg {
+  background-color: #e74c3c;
+}
+.blueBg {
+  background-color: #80ced6;
+}
