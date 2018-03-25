@@ -1,13 +1,12 @@
 import React from 'react';
 import './DataChart.css';
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries} from 'react-vis';
+import {FlexibleWidthXYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries} from 'react-vis';
 
 const DataChart = props => {
-  var result = props.ruuviDataList.map(data => ({ x: (new Date(data.createdAt).getTime()), y: data.temperature }));
+//   var result = props.ruuviDataList.map(data => ({ x: (new Date(data.createdAt).getTime()), y: data.temperature }));
   return (
     <div className="dataChart">
-    <XYPlot
-      width={600}
+    <FlexibleWidthXYPlot
       height={300}
       xType="time-utc">
       <VerticalGridLines/>
@@ -16,10 +15,10 @@ const DataChart = props => {
       <YAxis />
       <LineSeries
         curve={'curveBundle'}
-        data={result}
-        color="#7ccc63"
+        data={props.ruuviDataList}
+        color={props.lineColor}
         />
-    </XYPlot>
+    </FlexibleWidthXYPlot>
   </div>
   );
 };
