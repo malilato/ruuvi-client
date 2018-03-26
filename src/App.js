@@ -16,8 +16,29 @@ class App extends Component {
     this.state = {
       ruuviData: [],
       temperatureData: [],
-      ruuviDataList: []
+      ruuviDataList: [],
+      currentChartColor: '#7ccc63'
     };
+  }
+
+  changeChartData(event, dataKey){
+    var data = this.state.temperatureData;
+    if(dataKey === 'temperature')
+    {
+      data = this.state.ruuviDataList.map(data => ({ x: (new Date(data.createdAt).getTime()), y: data.temperature }));
+      this.setState({currentChartColor: '#7ccc63'})
+    }
+    else if(dataKey === 'humidity')
+    {
+      data = this.state.ruuviDataList.map(data => ({ x: (new Date(data.createdAt).getTime()), y: data.humidity }));
+      this.setState({currentChartColor: '#80ced6'})
+    }
+    else if(dataKey === 'pressure')
+    {
+      data = this.state.ruuviDataList.map(data => ({ x: (new Date(data.createdAt).getTime()), y: data.pressure }));
+      this.setState({currentChartColor: '#f39c12'})
+    }
+    this.setState({temperatureData: data})
   }
 
   componentDidMount() {
@@ -26,24 +47,8 @@ class App extends Component {
       .then(data => this.setState({ ruuviData: data }));
       fetch(APILIST)
         .then(response => response.json())
-        .then(data => this.setState({ ruuviDataList: data }));
-  }
-
-  changeChartData(event, dataKey){
-    var data = this.state.temperatureData;
-    if(dataKey === 'temperature')
-    {
-      data = this.state.ruuviDataList.map(data => ({ x: (new Date(data.createdAt).getTime()), y: data.temperature }));
-    }
-    else if(dataKey === 'humidity')
-    {
-      data = this.state.ruuviDataList.map(data => ({ x: (new Date(data.createdAt).getTime()), y: data.humidity }));
-    }
-    else if(dataKey === 'pressure')
-    {
-      data = this.state.ruuviDataList.map(data => ({ x: (new Date(data.createdAt).getTime()), y: data.pressure }));
-    }
-    this.setState({temperatureData: data})
+        .then(data => this.setState({ ruuviDataList: data }))
+        .then(data => this.changeChartData('e', 'temperature'));
   }
 
   render() {
@@ -74,7 +79,7 @@ class App extends Component {
           <div className="row">
             <div className="col-md-12">
               {/* <DataChart ruuviDataList={this.state.ruuviDataList}/> */}
-              <DataChartRes ruuviDataList={temperatureData} lineColor={"#7ccc63"}/>
+              <DataChartRes ruuviDataList={temperatureData} lineColor={this.state.currentChartColor}/>
             </div>
           </div>
 
